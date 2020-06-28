@@ -31,14 +31,6 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="124dp"
-        android:layout_height="52dp"
-        android:text="Hello World!"
-        app:layout_anchor="@+id/appBarLayout"
-        app:layout_anchorGravity="center" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addAlarmButton"
         android:layout_width="wrap_content"
