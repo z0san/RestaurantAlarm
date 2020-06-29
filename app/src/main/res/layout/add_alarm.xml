@@ -11,8 +11,8 @@
         android:layout_height="47dp"
         android:layout_marginTop="48dp"
         android:ems="10"
-        android:gravity="left|center_vertical"
-        android:hint="Alarm Name"
+        android:gravity="start|center_vertical"
+        android:hint="@string/alarm_name"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:textAllCaps="false"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:background="@color/dialogPrimaryVariant"
-        android:text="Submit"
+        android:text="@string/submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline2" />
 
@@ -34,8 +34,11 @@
         android:id="@+id/alarmFrequency"
         android:layout_width="98dp"
         android:layout_height="57dp"
+        android:autofillHints=""
         android:ems="10"
+        android:hint="@string/_30"
         android:inputType="number"
+        android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -45,7 +48,7 @@
         android:layout_width="142dp"
         android:layout_height="21dp"
         android:layout_marginTop="28dp"
-        android:text="REPEAT EVERY (min)"
+        android:text="@string/repeat_every_min"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/alarmName" />
 
@@ -70,7 +73,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="28dp"
         android:background="@color/dialogPrimaryVariant"
-        android:text="Select color"
+        android:text="@string/select_color"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/alarmFrequency" />

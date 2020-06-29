@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KotlinPractice</string>
+    <string name="app_name">resturant</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -13,4 +13,9 @@
     <string name="add_alarm">Add Alarm</string>
     <string name="product_name">Product Name</string>
     <string name="back">Back</string>
+    <string name="submit">Submit</string>
+    <string name="alarm_name">Alarm Name</string>
+    <string name="repeat_every_min">REPEAT EVERY (min)</string>
+    <string name="select_color">Select color</string>
+    <string name="_30">30</string>
 </resources>

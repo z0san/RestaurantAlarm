@@ -1,4 +1,4 @@
-package com.example.kotlinpractice
+package com.example.resturant
 
 import android.content.Intent
 import android.os.Bundle
@@ -18,10 +18,10 @@ class AddAlarmActivity: AppCompatActivity() {
         submitButton.setOnClickListener {
 
             //set the current alarm name to whatever is entered by the user
-            currentAlarm.name = alarmName.text.toString()
+            if (alarmName.text.toString() != "") currentAlarm.name = alarmName.text.toString()
 
             //set the current alarm frequency to whatever is entered by the user
-            currentAlarm.frequencyMin = alarmFrequency.text.toString().toInt()
+            if (alarmFrequency.text.toString() != "") currentAlarm.frequencyMin = alarmFrequency.text.toString().toInt()
 
             if (currentAlarm.isFull()) {
                 //add new alarm to Alarms

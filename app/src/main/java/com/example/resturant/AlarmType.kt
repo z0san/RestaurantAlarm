@@ -1,11 +1,7 @@
-package com.example.kotlinpractice
-
-import android.graphics.Color
-import android.os.Build
-import androidx.annotation.RequiresApi
+package com.example.resturant
 
 class AlarmType {
-    var frequencyMin: Int = 0
+    var frequencyMin: Int = 30
     var color: Int = 0
     var name: String = ""
     var isOn: Boolean = true

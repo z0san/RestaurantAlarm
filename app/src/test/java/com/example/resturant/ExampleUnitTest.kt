@@ -1,4 +1,4 @@
-package com.example.kotlinpractice
+package com.example.resturant
 
 import org.junit.Test
 

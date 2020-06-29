@@ -1,6 +1,8 @@
-package com.example.kotlinpractice
+package com.example.resturant
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.*
@@ -13,9 +15,9 @@ class MainActivity: AppCompatActivity() {
     companion object {
         //stores all current alarms
         var alarms : MutableList<AlarmType> = mutableListOf()
-        val largeText = 48
-        val mediumText = 24
-        val smallText = 16
+        const val largeText = 48
+        const val mediumText = 24
+        const val smallText = 16
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +59,9 @@ class MainActivity: AppCompatActivity() {
             nameParams.weight = 1f
             name.textSize = smallText.toFloat()
             name.text = alarm.name
+            //set it to bold
+            name.typeface = Typeface.DEFAULT_BOLD
+            name.setTextColor(Color.parseColor("#000000"))
 
             alarmInfo.addView(name)
 
