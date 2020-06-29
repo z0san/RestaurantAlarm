@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import java.io.FileInputStream
+import java.io.ObjectInputStream
 
 class MainActivity: AppCompatActivity() {
 
@@ -25,6 +27,9 @@ class MainActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
+
+        //load the alarms list with alarms if any have been saved
+        alarms = loadAlarms(this)
 
         //set button to go to make a new alarm
         addAlarmButton.setOnClickListener {

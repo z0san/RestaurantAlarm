@@ -27,6 +27,9 @@ class AddAlarmActivity: AppCompatActivity() {
                 //add new alarm to Alarms
                 MainActivity.alarms.add(currentAlarm)
 
+                //save alarms
+                saveAlarms(this, MainActivity.alarms)
+
                 //set the current activity to main activity
                 startActivity(Intent(this, MainActivity::class.java))
             }
