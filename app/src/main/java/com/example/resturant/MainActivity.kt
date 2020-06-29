@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -42,9 +43,24 @@ class MainActivity: AppCompatActivity() {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT
             )
-            alarmParams.setMargins(20, 10, 10, 0)
+            alarmParams.setMargins(0, 0, 0, 0)
 
             alarmInfo.layoutParams = alarmParams
+
+            //create a view that is the color of the alarm
+            val colorLabel: View = View(this)
+
+            //set params so that it sits properly
+            val boxParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
+                20,
+                LinearLayout.LayoutParams.MATCH_PARENT
+            )
+            colorLabel.layoutParams = boxParams
+            boxParams.setMargins(0, 0, 20, 0)
+
+            colorLabel.setBackgroundColor(alarm.color)
+
+            alarmInfo.addView((colorLabel))
 
             //create label for the alarm
             val name: TextView = TextView(this)
