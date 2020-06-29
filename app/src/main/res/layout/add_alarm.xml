@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2" />
 
     <EditText
-        android:id="@+id/frequency"
+        android:id="@+id/alarmFrequency"
         android:layout_width="98dp"
         android:layout_height="57dp"
         android:ems="10"
@@ -73,6 +73,6 @@
         android:text="Select color"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/frequency" />
+        app:layout_constraintTop_toBottomOf="@+id/alarmFrequency" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

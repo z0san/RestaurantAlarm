@@ -1,23 +1,22 @@
 package com.example.kotlinpractice
 
-import android.app.ActionBar
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log.d
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.children
-import androidx.core.view.marginLeft
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity: AppCompatActivity() {
+
+    //global variables
+    companion object {
+        //stores all current alarms
+        var alarms : MutableList<AlarmType> = mutableListOf()
+        val largeText = 48
+        val mediumText = 24
+        val smallText = 16
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,60 +30,67 @@ class MainActivity : AppCompatActivity() {
 
 
         //add test items
-        for (i in 0  until 50) {
+        for (alarm in alarms) {
 
             //horizontal layout for the alarm info
-            val alarmInfo : LinearLayout = LinearLayout(this)
-
-            //create label for the alarm
-            val name : TextView = TextView(this)
+            val alarmInfo: LinearLayout = LinearLayout(this)
 
             //set params so that it sits properly
-            val nameParams : LinearLayout.LayoutParams = LinearLayout.LayoutParams(
+            val alarmParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+            )
+            alarmParams.setMargins(20, 10, 10, 0)
+
+            alarmInfo.layoutParams = alarmParams
+
+            //create label for the alarm
+            val name: TextView = TextView(this)
+
+            //set params so that it sits properly
+            val nameParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
             name.layoutParams = nameParams
 
             nameParams.weight = 1f
-
-            name.text = "Alarm #$i"
+            name.textSize = smallText.toFloat()
+            name.text = alarm.name
 
             alarmInfo.addView(name)
 
             //create alarm frequency label
-            val frequency : TextView = TextView(this)
+            val frequency: TextView = TextView(this)
 
             //set params so that it sits properly
-            val freqParams : LinearLayout.LayoutParams = LinearLayout.LayoutParams(
+            val freqParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
             frequency.layoutParams = freqParams
-
             //freqParams.setMargins(100, 10, 10, 10)
 
-            val min : Int = 30
-            frequency.text = "Every : $min minutes"
+            frequency.textSize = smallText.toFloat()
+            frequency.text = "Every : ${alarm.frequencyMin} minutes"
 
             alarmInfo.addView(frequency)
 
             //create on off switch for the alarm
-            val onOffSwitch : Switch = Switch(this)
+            val onOffSwitch: Switch = Switch(this)
 
             //set params so that it sits properly
-            val onOffParams : LinearLayout.LayoutParams = LinearLayout.LayoutParams(
+            val onOffParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
             onOffSwitch.layoutParams = onOffParams
 
+            //set the default switch state to whatever it is for the current alarm
+            onOffSwitch.isChecked = alarm.isOn
+
             //set margins
             onOffParams.setMargins(30, 10, 10, 10)
-            //shift it to the right
-            //onOffParams.weight = 1f
-
-
 
             alarmInfo.addView(onOffSwitch)
 
