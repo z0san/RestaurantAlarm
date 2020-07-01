@@ -1,16 +1,18 @@
 package com.example.resturant
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import java.io.FileInputStream
-import java.io.ObjectInputStream
+import java.util.*
 
 class MainActivity: AppCompatActivity() {
 
@@ -21,6 +23,7 @@ class MainActivity: AppCompatActivity() {
         const val largeText = 48
         const val mediumText = 24
         const val smallText = 16
+        var alarm_manager: AlarmManager? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,8 +31,14 @@ class MainActivity: AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        Log.e("Working", "Main activity started!")
+        alarm_manager = getSystemService(ALARM_SERVICE) as AlarmManager;
+
         //load the alarms list with alarms if any have been saved
         alarms = loadAlarms(this)
+
+        //testing ----------------
+        startAlarm()
 
         //set button to go to make a new alarm
         addAlarmButton.setOnClickListener {
@@ -122,5 +131,9 @@ class MainActivity: AppCompatActivity() {
 
             alarmList.addView(alarmInfo);
         }
+    }
+
+    private fun startAlarm(): Unit{
+        AlarmReceiver().setAlarm(this)
     }
 }

@@ -29,7 +29,7 @@ fun loadAlarms(context: Context): MutableList<AlarmType>{
         file = FileInputStream(File(context.filesDir, fileName))
     } catch (e: Exception){
         //in case of failure return empty now but later create file
-        MessageBox().show(context, "ERROR", "File not found!")
+        MessageBox().show(context, "Setting up", "Setting up files now")
 //        val newFile = File(context.filesDir, fileName)
 //        newFile.createNewFile()
         return alarms
