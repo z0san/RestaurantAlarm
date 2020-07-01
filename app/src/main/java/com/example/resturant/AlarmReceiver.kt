@@ -11,10 +11,11 @@ import java.util.*
 
 
 class AlarmReceiver : BroadcastReceiver() {
+
     override fun onReceive(context: Context, intent: Intent) {
-        val message = "Hellooo, alrm worked ----"
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-        val intent2 = Intent(context, AddAlarmActivity::class.java)
+        //val message = "Alarm triggered: " + alarm?.name.toString()
+        //Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        val intent2 = Intent(context, AlarmTriggered::class.java)
         intent2.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(intent2)
     }

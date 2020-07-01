@@ -2,12 +2,14 @@ package com.example.resturant
 
 import android.content.Context
 import java.io.*
+import java.util.*
 
 class AlarmType: Serializable {
     var frequencyMin: Int = 30
     var color: Int = 0
     var name: String = ""
     var isOn: Boolean = true
+    var lastAlarm: Long = 0
 
     fun isEmpty(): Boolean {
         return frequencyMin == 0 && color == 0 && name == ""
@@ -18,7 +20,7 @@ class AlarmType: Serializable {
     }
 }
 
-val fileName: String = "alarms.txt"
+const val fileName: String = "alarms.txt"
 
 //function to retrieve alarms from file system
 fun loadAlarms(context: Context): MutableList<AlarmType>{
@@ -41,6 +43,14 @@ fun loadAlarms(context: Context): MutableList<AlarmType>{
         var item: AlarmType? = inStream.readObject() as AlarmType?
         while (item != null){
             alarms.add(item)
+            item.lastAlarm = Calendar.getInstance().timeInMillis
+
+            //testing ------------
+            if (MainActivity.currentlyTriggered.count() == 0) {
+                AlarmReceiver().setAlarm(context)
+                MainActivity.currentlyTriggered.add(item)
+            }
+
             item = inStream.readObject() as AlarmType
         }
 
@@ -48,6 +58,9 @@ fun loadAlarms(context: Context): MutableList<AlarmType>{
         file.close()
     } catch (e: EOFException){
         return alarms;
+    } catch (e: InvalidClassException) {
+        MessageBox().show(context, "Setting up", "Resetting up files")
+        return alarms
     }
 
 

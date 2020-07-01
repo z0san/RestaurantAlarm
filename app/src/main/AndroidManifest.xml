@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.resturant.AddAlarmActivity" />
+        <activity android:name="com.example.resturant.AlarmTriggered" />
         <receiver  android:process=":remote" android:name="AlarmReceiver"/>
     </application>
 

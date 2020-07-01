@@ -20,6 +20,7 @@ class MainActivity: AppCompatActivity() {
     companion object {
         //stores all current alarms
         var alarms : MutableList<AlarmType> = mutableListOf()
+        val currentlyTriggered : MutableList<AlarmType> = mutableListOf()
         const val largeText = 48
         const val mediumText = 24
         const val smallText = 16
@@ -37,8 +38,6 @@ class MainActivity: AppCompatActivity() {
         //load the alarms list with alarms if any have been saved
         alarms = loadAlarms(this)
 
-        //testing ----------------
-        startAlarm()
 
         //set button to go to make a new alarm
         addAlarmButton.setOnClickListener {
@@ -131,9 +130,5 @@ class MainActivity: AppCompatActivity() {
 
             alarmList.addView(alarmInfo);
         }
-    }
-
-    private fun startAlarm(): Unit{
-        AlarmReceiver().setAlarm(this)
     }
 }
