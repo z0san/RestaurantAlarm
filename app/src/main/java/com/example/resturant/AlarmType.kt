@@ -25,6 +25,7 @@ const val fileName: String = "alarms.txt"
 //function to retrieve alarms from file system
 fun loadAlarms(context: Context): MutableList<AlarmType>{
     val alarms: MutableList<AlarmType> = mutableListOf()
+    MainActivity.currentlyTriggered = mutableListOf()
     var file: FileInputStream? = null
     //catch if no file exists
     try {
@@ -46,10 +47,8 @@ fun loadAlarms(context: Context): MutableList<AlarmType>{
             item.lastAlarm = Calendar.getInstance().timeInMillis
 
             //testing ------------
-            if (MainActivity.currentlyTriggered.count() == 0) {
-                AlarmReceiver().setAlarm(context)
-                MainActivity.currentlyTriggered.add(item)
-            }
+            AlarmReceiver().setAlarm(context)
+            MainActivity.currentlyTriggered.add(item)
 
             item = inStream.readObject() as AlarmType
         }

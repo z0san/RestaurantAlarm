@@ -20,7 +20,7 @@ class MainActivity: AppCompatActivity() {
     companion object {
         //stores all current alarms
         var alarms : MutableList<AlarmType> = mutableListOf()
-        val currentlyTriggered : MutableList<AlarmType> = mutableListOf()
+        var currentlyTriggered : MutableList<AlarmType> = mutableListOf()
         const val largeText = 48
         const val mediumText = 24
         const val smallText = 16

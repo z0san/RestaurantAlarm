@@ -28,12 +28,11 @@ class AlarmReceiver : BroadcastReceiver() {
         // add 30 seconds to the calendar object
         cal.add(Calendar.SECOND, 5)
         val intent = Intent(context, AlarmReceiver::class.java)
-        val sender =
-            PendingIntent.getBroadcast(context, 192837, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val sender = PendingIntent.getBroadcast(context, 192837, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT)
 
         // Get the AlarmManager service
-        val am =
-            context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         am[AlarmManager.RTC_WAKEUP, cal.timeInMillis] = sender
     }
 }
