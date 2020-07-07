@@ -1,6 +1,7 @@
 package com.example.resturant
 
 import android.content.Context
+import android.content.DialogInterface
 import java.io.*
 import java.util.*
 
@@ -32,6 +33,7 @@ class AlarmType: Serializable {
         //we don't need to do anything if unchecked besides turn it off because then we know the
         //the alarm won't go off
     }
+
 }
 
 const val fileName: String = "alarms.txt"
@@ -103,4 +105,5 @@ fun saveAlarms(context: Context, alarms: MutableList<AlarmType>): Unit{
     outStream.close()
     file.close()
 }
+
 
