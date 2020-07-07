@@ -24,11 +24,13 @@ class MainActivity: AppCompatActivity() {
     //global variables
     companion object {
         //stores all current alarms
-        var alarms : MutableList<AlarmType> = mutableListOf()
+        var alarms: MutableList<AlarmType> = mutableListOf()
         const val largeText = 48
         const val mediumText = 24
         const val smallText = 16
         var alarm_manager: AlarmManager? = null
+
+        var currentlyTriggered: MutableList<AlarmType> = mutableListOf()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +42,12 @@ class MainActivity: AppCompatActivity() {
         alarm_manager = getSystemService(ALARM_SERVICE) as AlarmManager
 
         //load the alarms list with alarms if any have been saved
-        alarms = loadAlarms(this)
+        val loadedAlarms: MutableList<AlarmType> = loadAlarms(this)
+
+        //only add new alarms to the alarms list
+        for(alarm in loadedAlarms) {
+            if (!alarms.contains(alarm)) alarms.add(alarm)
+        }
 
         //set button to go to make a new alarm
         addAlarmButton.setOnClickListener {
@@ -147,27 +154,21 @@ class MainActivity: AppCompatActivity() {
                     .setMessage(Html.fromHtml("Are you shure you want to delete the alarm: <b>" + alarm.name + "</b> ?"))
                     .setCancelable(false)//prevents cancilation
                     //yes button deletes alarm
-                    .setPositiveButton("yes",
-                    object: DialogInterface.OnClickListener {
-                        override fun onClick(di: DialogInterface, i: Int){
-                            //delete alarm here
+                    .setPositiveButton("yes"
+                    ) { _, _ -> //delete alarm here
 
-                            //remove from view
-                            alarmList.removeView(alarmInfo)
-                            alarms.remove(alarm)
+                        //remove from view
+                        alarmList.removeView(alarmInfo)
+                        alarms.remove(alarm)
 
-                            //delete from storage
-                            saveAlarms(context, alarms)
-                        }
-                    })
+                        //delete from storage
+                        saveAlarms(context, alarms)
+                    }
                     //no button does nothing
-                    .setNegativeButton("no",
-                    object: DialogInterface.OnClickListener {
-                        override fun onClick(di: DialogInterface, i: Int){
-                            //this closes the message box
-                            di.cancel()
-                        }
-                    })
+                    .setNegativeButton("no"
+                    ) { di, _ -> //this closes the message box
+                        di.cancel()
+                    }
                 builder.create().show()
                 true
             }
