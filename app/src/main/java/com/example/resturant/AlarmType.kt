@@ -18,6 +18,20 @@ class AlarmType: Serializable {
     fun  isFull(): Boolean {
         return frequencyMin != 0 && color != 0 && name != ""
     }
+
+    //function to handle when a alarm is switched on or off
+    fun onSwitchChange(context: Context, isChecked: Boolean){
+        isOn = isChecked
+        if (isChecked) {
+            //if checked then we need to start the alarm and reset the last alarm
+            val cal: Calendar = Calendar.getInstance()
+            lastAlarm = cal.timeInMillis
+            //start the timer for the alarm
+            AlarmReceiver().setAlarm(context, MainActivity.alarms)
+        }
+        //we don't need to do anything if unchecked besides turn it off because then we know the
+        //the alarm won't go off
+    }
 }
 
 const val fileName: String = "alarms.txt"
@@ -25,7 +39,6 @@ const val fileName: String = "alarms.txt"
 //function to retrieve alarms from file system
 fun loadAlarms(context: Context): MutableList<AlarmType>{
     val alarms: MutableList<AlarmType> = mutableListOf()
-    MainActivity.currentlyTriggered = mutableListOf()
     var file: FileInputStream? = null
     //catch if no file exists
     try {
@@ -44,11 +57,15 @@ fun loadAlarms(context: Context): MutableList<AlarmType>{
         var item: AlarmType? = inStream.readObject() as AlarmType?
         while (item != null){
             alarms.add(item)
-            item.lastAlarm = Calendar.getInstance().timeInMillis
+            //set to 0 by default so that main activity knows to overwrite this on first start up
+            item.lastAlarm = 0
+
+            //set all alarms off by default for now
+            item.isOn = false;
 
             //testing ------------
-            AlarmReceiver().setAlarm(context)
-            MainActivity.currentlyTriggered.add(item)
+//            AlarmReceiver().setAlarm(context)
+//            MainActivity.currentlyTriggered.add(item)
 
             item = inStream.readObject() as AlarmType
         }
@@ -86,3 +103,4 @@ fun saveAlarms(context: Context, alarms: MutableList<AlarmType>): Unit{
     outStream.close()
     file.close()
 }
+

@@ -1,18 +1,20 @@
 package com.example.resturant
 
 import android.app.AlarmManager
-import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.CompoundButton
+import android.widget.LinearLayout
+import android.widget.Switch
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import java.util.*
+
 
 class MainActivity: AppCompatActivity() {
 
@@ -20,7 +22,6 @@ class MainActivity: AppCompatActivity() {
     companion object {
         //stores all current alarms
         var alarms : MutableList<AlarmType> = mutableListOf()
-        var currentlyTriggered : MutableList<AlarmType> = mutableListOf()
         const val largeText = 48
         const val mediumText = 24
         const val smallText = 16
@@ -37,7 +38,6 @@ class MainActivity: AppCompatActivity() {
 
         //load the alarms list with alarms if any have been saved
         alarms = loadAlarms(this)
-
 
         //set button to go to make a new alarm
         addAlarmButton.setOnClickListener {
@@ -119,6 +119,11 @@ class MainActivity: AppCompatActivity() {
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
             onOffSwitch.layoutParams = onOffParams
+
+            //set the on click function for each alarm
+            onOffSwitch.setOnClickListener{
+                    alarm.onSwitchChange(this, onOffSwitch.isChecked)
+            }
 
             //set the default switch state to whatever it is for the current alarm
             onOffSwitch.isChecked = alarm.isOn

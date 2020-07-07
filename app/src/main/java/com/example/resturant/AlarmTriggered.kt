@@ -10,14 +10,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.add_alarm.*
 import kotlinx.android.synthetic.main.alarm_triggered.*
+import java.util.*
 
 class AlarmTriggered : AppCompatActivity() {
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.alarm_triggered)
 
-        for (alarm in MainActivity.currentlyTriggered) {
+        //draw all alarms that are triggered
+        drawAlarms(AlarmReceiver().getTriggeredAlarms())
 
+    }
+
+    private fun drawAlarms(currentlyTriggered: MutableList<AlarmType>) {
+        //draw all the alarms that are in currently triggered
+        for (alarm in currentlyTriggered) {
+
+            //view to store all the alarms that have gone off
             var alarmView: ConstraintLayout = ConstraintLayout(this)
             //set params so that it sits properly
             val viewParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
