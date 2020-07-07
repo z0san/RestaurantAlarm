@@ -2,6 +2,7 @@ package com.example.resturant
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import dev.sasikanth.colorsheet.ColorSheet
 import kotlinx.android.synthetic.main.add_alarm.*
@@ -10,9 +11,25 @@ class AddAlarmActivity: AppCompatActivity() {
 
     var currentAlarm: AlarmType = AlarmType()
 
+    //loads a pre-exsisting alarm into this interface
+    fun loadAlarm(alarm: AlarmType){
+        this.currentAlarm=alarm
+        //set background color of color selector button
+        colorSelector.setBackgroundColor(alarm.color)
+        alarmName.setText(alarm.name)
+        alarmFrequency.setText(alarm.frequencyMin.toString())
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_alarm)
+
+        //check for selected alarm
+        if(MainActivity.selectedAlarm!=null){
+            //load selected alarm
+            loadAlarm(MainActivity.selectedAlarm!!)
+        }
 
         //when all details are entered you can submit
         submitButton.setOnClickListener {
@@ -24,8 +41,11 @@ class AddAlarmActivity: AppCompatActivity() {
             if (alarmFrequency.text.toString() != "") currentAlarm.frequencyMin = alarmFrequency.text.toString().toInt()
 
             if (currentAlarm.isFull()) {
-                //add new alarm to Alarms
-                MainActivity.alarms.add(currentAlarm)
+                //add new alarm to Alarms if it is a new alarm
+                if(MainActivity.selectedAlarm==null) MainActivity.alarms.add(currentAlarm)
+
+                //deselect alarm
+                MainActivity.selectedAlarm=null
 
                 //save alarms
                 saveAlarms(this, MainActivity.alarms)
