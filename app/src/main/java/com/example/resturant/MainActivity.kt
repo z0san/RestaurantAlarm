@@ -142,8 +142,6 @@ class MainActivity: AppCompatActivity() {
             //set alarmInfo longclick
             //this will delete that alarm
             alarmInfo.isLongClickable=true
-
-            //longClick for deleting larm
             alarmInfo.setOnLongClickListener {
                 //an alert box confirming the delete
                 //this builder is used to setup the dialogue box
@@ -176,13 +174,13 @@ class MainActivity: AppCompatActivity() {
                 true
             }
 
+
+            alarmList.addView(alarmInfo)
             //click for editing larm
             alarmInfo.setOnClickListener{
                 selectedAlarm=alarm
                 startActivity(Intent(this, AddAlarmActivity::class.java))
             }
-
-            alarmList.addView(alarmInfo)
         }
     }
 }
