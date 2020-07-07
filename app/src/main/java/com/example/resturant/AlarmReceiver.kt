@@ -25,13 +25,13 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     //function to set an update in the future so that the alarms will be updated at that time
-    fun setAlarm(context: Context) {
+    fun setAlarm(context: Context, delay: Int) {
         Log.d("Carbon", "Alarm SET !!")
 
         // get a Calendar object with current time
         val cal: Calendar = Calendar.getInstance()
         // add 5 seconds to the calendar object
-        cal.add(Calendar.SECOND, 5)
+        cal.add(Calendar.SECOND, delay) //for testing this is in seconds but this should be in mins
         val intent = Intent(context, AlarmReceiver::class.java)
         val sender = PendingIntent.getBroadcast(context, cal.timeInMillis.toInt(), intent,
                 PendingIntent.FLAG_UPDATE_CURRENT)
@@ -59,7 +59,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 Log.e("last alarm: ", triggerTime.timeInMillis.toString())
                 Log.e("current time: ", Calendar.getInstance().timeInMillis.toString())
 
-                triggerTime.add(Calendar.SECOND, 5) //FOR TESTING ONLY
+                triggerTime.add(Calendar.SECOND, alarm.frequencyMin) //is seconds for debugging only should be mins for final version
 
                 //triggerTime.add(Calendar.MINUTE, alarm.frequencyMin)
                 //if we are past the trigger time then add it to currently triggered

@@ -1,20 +1,28 @@
 package com.example.resturant
 
-import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import kotlinx.android.synthetic.main.add_alarm.*
+import androidx.core.view.children
 import kotlinx.android.synthetic.main.alarm_triggered.*
-import java.util.*
+import org.w3c.dom.Text
 
 class AlarmTriggered : AppCompatActivity() {
 
+    //global variables
+    companion object {
+        //stores all the counts that we need to update every second
+        var alarmViews: MutableSet<AlarmTriggeredView> = mutableSetOf<AlarmTriggeredView>()
+    }
 
+    // Create the Handler object (on the main thread by default)
+    val handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,84 +31,39 @@ class AlarmTriggered : AppCompatActivity() {
         //draw all alarms that are triggered
         drawAlarms(AlarmReceiver().getTriggeredAlarms())
 
+        // Start the initial runnable task by posting through the handler
+        // St   art the initial runnable task by posting through the handler
+        handler.post(getRunnableLoop())
+
+    }
+
+    //function to generate teh runnable code that runs every second to update time since triggered
+    private fun getRunnableLoop(): Runnable {
+        // Create the Handler object (on the main thread by default)
+        return object : Runnable {
+            override fun run() {
+                // Do something here on the main thread
+                Log.d("Handlers", "Updating reverse counters")
+
+                for(alarmView in alarmViews) {
+                    alarmView.updateCount()
+                }
+
+                // Repeat this the same runnable code block again another 2 seconds
+                // 'this' is referencing the Runnable object
+                handler.postDelayed(this, 1000)
+            }
+        }
     }
 
     private fun drawAlarms(currentlyTriggered: MutableList<AlarmType>) {
         //draw all the alarms that are in currently triggered
         for (alarm in currentlyTriggered) {
-
-            //view to store all the alarms that have gone off
-            var alarmView: ConstraintLayout = ConstraintLayout(this)
-            //set params so that it sits properly
-            val viewParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                0,
-                1F
-            )
-            alarmView.layoutParams = viewParams
-            alarmView.setBackgroundColor(alarm.color)
-
-            var dismissButton: Button = Button(this)
-            //set params so that it sits properly
-            val buttonParams: ConstraintLayout.LayoutParams = ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT
-            )
-
-            buttonParams.bottomToBottom = 0
-            buttonParams.endToEnd = 0
-            buttonParams.topToTop = 0
-            buttonParams.startToStart = 0
-            buttonParams.horizontalBias = 0.5F
-            buttonParams.verticalBias = 0.85F
-
-            dismissButton.layoutParams = buttonParams
-            dismissButton.text = "DISMISS"
-            alarmView.addView(dismissButton)
-
-
-
-            var title: TextView = TextView(this)
-            title.text = alarm.name
-
-            val titleParams: ConstraintLayout.LayoutParams = ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT
-            )
-
-            titleParams.bottomToBottom = 0
-            titleParams.endToEnd = 0
-            titleParams.topToTop = 0
-            titleParams.startToStart = 0
-            titleParams.verticalBias = 0.1F
-
-            title.layoutParams = titleParams
-            title.setTextColor(0xFF000000.toInt())
-            title.textSize = 24F
-
-            alarmView.addView(title)
-
-            var count: TextView = TextView(this)
-            count.text = "-2"
-
-            val countParams: ConstraintLayout.LayoutParams = ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT
-            )
-
-            countParams.bottomToBottom = 0
-            countParams.endToEnd = 0
-            countParams.topToTop = 0
-            countParams.startToStart = 0
-            countParams.verticalBias = 0.375F
-
-            count.layoutParams = countParams
-            count.setTextColor(0x66000000.toInt())
-            count.textSize = 18F
-
-            alarmView.addView(count)
-
-            alarmLayout.addView(alarmView)
+            val triggeredAlarm: AlarmTriggeredView = AlarmTriggeredView(this, alarm)
+            //add the triggered alarm to the page
+            alarmLayout.addView(triggeredAlarm.alarmView)
+            //add the triggered alarm to the list of alarm views
+            alarmViews.add(triggeredAlarm)
         }
     }
 }
