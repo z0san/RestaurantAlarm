@@ -33,7 +33,7 @@ class AlarmReceiver : BroadcastReceiver() {
         // add 5 seconds to the calendar object
         cal.add(Calendar.SECOND, 5)
         val intent = Intent(context, AlarmReceiver::class.java)
-        val sender = PendingIntent.getBroadcast(context, 192837, intent,
+        val sender = PendingIntent.getBroadcast(context, cal.timeInMillis.toInt(), intent,
                 PendingIntent.FLAG_UPDATE_CURRENT)
 
         // Get the AlarmManager service
