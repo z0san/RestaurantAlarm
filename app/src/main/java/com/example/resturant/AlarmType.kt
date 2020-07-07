@@ -27,7 +27,7 @@ class AlarmType: Serializable {
             val cal: Calendar = Calendar.getInstance()
             lastAlarm = cal.timeInMillis
             //start the timer for the alarm
-            AlarmReceiver().setAlarm(context, MainActivity.alarms)
+            AlarmReceiver().setAlarm(context)
         }
         //we don't need to do anything if unchecked besides turn it off because then we know the
         //the alarm won't go off

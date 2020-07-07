@@ -19,11 +19,13 @@ class AlarmReceiver : BroadcastReceiver() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onReceive(context: Context, intent: Intent) {
+//        val message = "Alarm received"
+//        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         scheduleJob(context)
     }
 
     //function to set an update in the future so that the alarms will be updated at that time
-    fun setAlarm(context: Context, alarms: MutableList<AlarmType>) {
+    fun setAlarm(context: Context) {
         Log.d("Carbon", "Alarm SET !!")
 
         // get a Calendar object with current time
@@ -36,7 +38,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         // Get the AlarmManager service
         val am: AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        am[AlarmManager.RTC_WAKEUP, cal.timeInMillis] = sender
+        am.set(AlarmManager.RTC_WAKEUP, cal.timeInMillis, sender)
     }
 
     //function to get all alarms that have gone off
@@ -57,7 +59,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 Log.e("last alarm: ", triggerTime.timeInMillis.toString())
                 Log.e("current time: ", Calendar.getInstance().timeInMillis.toString())
 
-                triggerTime.add(Calendar.SECOND, 0) //FOR TESTING ONLY
+                triggerTime.add(Calendar.SECOND, 5) //FOR TESTING ONLY
 
                 //triggerTime.add(Calendar.MINUTE, alarm.frequencyMin)
                 //if we are past the trigger time then add it to currently triggered
@@ -74,8 +76,8 @@ class AlarmReceiver : BroadcastReceiver() {
     fun scheduleJob(context: Context) {
         val serviceComponent = ComponentName(context, AlarmJobs::class.java)
         val builder = JobInfo.Builder(0, serviceComponent)
-        builder.setMinimumLatency(1 * 1000.toLong()) // wait at least
-        builder.setOverrideDeadline(3 * 1000.toLong()) // maximum delay
+        builder.setMinimumLatency(1.toLong()) // wait at least
+        builder.setOverrideDeadline(1 * 1000.toLong()) // maximum delay
         //builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
         //builder.setRequiresDeviceIdle(true); // device should be idle
         //builder.setRequiresCharging(false); // we don't care if the device is charging or not
