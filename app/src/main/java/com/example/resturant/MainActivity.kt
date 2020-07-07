@@ -1,13 +1,16 @@
 package com.example.resturant
 
 import android.app.AlarmManager
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.View
-import android.widget.CompoundButton
 import android.widget.LinearLayout
 import android.widget.Switch
 import android.widget.TextView
@@ -34,7 +37,7 @@ class MainActivity: AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         Log.e("Working", "Main activity started!")
-        alarm_manager = getSystemService(ALARM_SERVICE) as AlarmManager;
+        alarm_manager = getSystemService(ALARM_SERVICE) as AlarmManager
 
         //load the alarms list with alarms if any have been saved
         alarms = loadAlarms(this)
@@ -112,6 +115,7 @@ class MainActivity: AppCompatActivity() {
 
             //create on off switch for the alarm
             val onOffSwitch: Switch = Switch(this)
+            val context: Context = this//this is context
 
             //set params so that it sits properly
             val onOffParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
@@ -133,7 +137,43 @@ class MainActivity: AppCompatActivity() {
 
             alarmInfo.addView(onOffSwitch)
 
-            alarmList.addView(alarmInfo);
+            //set alarmInfo longclick
+            //this will delete that alarm
+            alarmInfo.isLongClickable=true
+            alarmInfo.setOnLongClickListener {
+                //an alert box confirming the delete
+                //this builder is used to setup the dialogue box
+                val builder: AlertDialog.Builder= AlertDialog.Builder(this)
+                    .setMessage(Html.fromHtml("Are you shure you want to delete the alarm: <b>" + alarm.name + "</b> ?"))
+                    .setCancelable(false)//prevents cancilation
+                    //yes button deletes alarm
+                    .setPositiveButton("yes",
+                    object: DialogInterface.OnClickListener {
+                        override fun onClick(di: DialogInterface, i: Int){
+                            //delete alarm here
+
+                            //remove from view
+                            alarmList.removeView(alarmInfo)
+                            alarms.remove(alarm)
+
+                            //delete from storage
+                            saveAlarms(context, alarms)
+                        }
+                    })
+                    //no button does nothing
+                    .setNegativeButton("no",
+                    object: DialogInterface.OnClickListener {
+                        override fun onClick(di: DialogInterface, i: Int){
+                            //this closes the message box
+                            di.cancel()
+                        }
+                    })
+                builder.create().show()
+                true
+            }
+
+
+            alarmList.addView(alarmInfo)
         }
     }
 }
