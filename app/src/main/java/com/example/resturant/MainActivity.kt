@@ -29,6 +29,8 @@ class MainActivity: AppCompatActivity() {
         const val mediumText = 24
         const val smallText = 16
         var alarm_manager: AlarmManager? = null
+
+        var selectedAlarm: AlarmType? =null//holds the alarm that is currently selected, null if none are selected
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -174,6 +176,11 @@ class MainActivity: AppCompatActivity() {
 
 
             alarmList.addView(alarmInfo)
+            //click for editing larm
+            alarmInfo.setOnClickListener{
+                selectedAlarm=alarm
+                startActivity(Intent(this, AddAlarmActivity::class.java))
+            }
         }
     }
 }
