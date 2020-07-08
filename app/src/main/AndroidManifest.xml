@@ -21,6 +21,7 @@
         </activity>
         <activity android:name="com.example.resturant.AddAlarmActivity" />
         <activity android:name="com.example.resturant.AlarmTriggered" />
+        <activity android:name="com.example.resturant.SettingsActivity"/>
         <receiver  android:process=":remote" android:name="AlarmReceiver"/>
         <service android:name=".AlarmJobs"
             android:permission="android.permission.BIND_JOB_SERVICE"

@@ -19,4 +19,5 @@
     <string name="select_color">Select color</string>
     <string name="_30">30</string>
     <string name="all_alarms">All Alarms</string>
+    <string name="defult_alarm_time">Defult Alarm Time</string>
 </resources>

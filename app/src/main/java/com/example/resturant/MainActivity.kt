@@ -51,7 +51,12 @@ class MainActivity: AppCompatActivity() {
         addAlarmButton.setOnClickListener {
             startActivity(Intent(this, AddAlarmActivity::class.java))
         }
-
+        /* Currently Disabled
+        //set button to go to settings
+        settingsButton.setOnClickListener{
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
+        */
         //add universal off switch
         universalSwitch.setOnClickListener {
             for(alarm in alarms){//set the alarm objects to the switch value
