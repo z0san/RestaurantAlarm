@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
+import android.util.TypedValue
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -32,6 +33,18 @@ class MainActivity: AppCompatActivity() {
 
         Log.e("Working", "Main activity started!")
         alarm_manager = getSystemService(ALARM_SERVICE) as AlarmManager
+
+        //set the padding on alarm list
+//        var actionBarHeight = 0
+//
+//        val tv = TypedValue()
+//        if (theme.resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+//            actionBarHeight =
+//                TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
+//        }
+//
+//        MessageBox().show(this, "height: ", actionBarHeight.toString())
+//        alarmList.setPadding(0, actionBarHeight, 0, 0)
 
         //load the alarms list with alarms if any have been saved
         val loadedAlarms: MutableList<AlarmType> = loadAlarms(this)

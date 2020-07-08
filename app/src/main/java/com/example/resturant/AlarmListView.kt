@@ -45,23 +45,25 @@ class AlarmListView : ConstraintLayout{
 
         layoutParams = alarmParams
 
-        //add main alarm info
-        addView(makeAlarmInfo())
-
         //add progress bar
-        // setBackgroundColor(0xFFd9d9d9.toInt())
-
 
         //set params so that it sits properly
         val progressParams: ConstraintLayout.LayoutParams = ConstraintLayout.LayoutParams(
-            LayoutParams.MATCH_PARENT,
-            LayoutParams.MATCH_PARENT
+            200,
+            70 // hard coded for now but this needs to be changed just for visualisation now
         )
+
         progressBar.setBackgroundColor(0xFFCCCCCC.toInt())
 
         progressBar.layoutParams = progressParams
 
         addView(progressBar)
+
+
+        //add main alarm info
+        addView(makeAlarmInfo())
+
+
 
     }
 
