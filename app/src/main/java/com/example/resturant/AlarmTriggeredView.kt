@@ -11,10 +11,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.startActivity
 import java.util.*
 
-class AlarmTriggeredView : View {
+class AlarmTriggeredView : ConstraintLayout {
     var alarm: AlarmType = AlarmType()
     //view to store all the alarms that have gone off
-    val alarmView: ConstraintLayout = ConstraintLayout(context)
+    //val alarmView: ConstraintLayout = ConstraintLayout(context)
     private var dismissButton: Button = Button(context)
     private var count: TextView = TextView(context)
     private var title: TextView = TextView(context)
@@ -29,8 +29,8 @@ class AlarmTriggeredView : View {
             0,
             1F
         )
-        alarmView.layoutParams = viewParams
-        alarmView.setBackgroundColor(alarm.color)
+        layoutParams = viewParams
+        setBackgroundColor(alarm.color)
 
 
         //set params so that it sits properly
@@ -66,7 +66,7 @@ class AlarmTriggeredView : View {
             }
         }
 
-        alarmView.addView(dismissButton)
+        addView(dismissButton)
 
         title.text = alarm.name
 
@@ -85,7 +85,7 @@ class AlarmTriggeredView : View {
         title.setTextColor(0xFF000000.toInt())
         title.textSize = 24F
 
-        alarmView.addView(title)
+        addView(title)
 
 
         count.text = "0"
@@ -105,7 +105,7 @@ class AlarmTriggeredView : View {
         count.setTextColor(0x66000000.toInt())
         count.textSize = 18F
 
-        alarmView.addView(count)
+        addView(count)
     }
 
     //function to update the count

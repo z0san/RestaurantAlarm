@@ -61,7 +61,7 @@ class AlarmTriggered : AppCompatActivity() {
         for (alarm in currentlyTriggered) {
             val triggeredAlarm: AlarmTriggeredView = AlarmTriggeredView(this, alarm)
             //add the triggered alarm to the page
-            alarmLayout.addView(triggeredAlarm.alarmView)
+            alarmLayout.addView(triggeredAlarm)
             //add the triggered alarm to the list of alarm views
             alarmViews.add(triggeredAlarm)
         }
