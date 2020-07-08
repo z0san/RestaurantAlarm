@@ -29,6 +29,12 @@
             android:background="@color/colorPrimary"
             android:baselineAligned="false"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        <Switch
+            android:id="@+id/universalSwitch"
+            android:layout_width="391dp"
+            android:layout_height="wrap_content"
+            android:text="@string/all_alarms" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

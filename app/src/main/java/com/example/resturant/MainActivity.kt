@@ -17,6 +17,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import java.lang.Exception
 
 
 class MainActivity: AppCompatActivity() {
@@ -31,6 +32,8 @@ class MainActivity: AppCompatActivity() {
         var alarm_manager: AlarmManager? = null
 
         var selectedAlarm: AlarmType? =null//holds the alarm that is currently selected, null if none are selected
+
+        val switches: MutableList<Switch> = mutableListOf()//stores the switches for the alarms so they can be changed
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +52,16 @@ class MainActivity: AppCompatActivity() {
             startActivity(Intent(this, AddAlarmActivity::class.java))
         }
 
+        //add universal off switch
+        universalSwitch.setOnClickListener {
+            for(alarm in alarms){//set the alarm objects to the switch value
+                alarm.onSwitchChange(this,universalSwitch.isChecked)
+            }
+            //set all switches to closed
+            for(switch in switches){
+                switch.isChecked=universalSwitch.isChecked
+            }
+        }
 
         //add test items
         for (alarm in alarms) {
@@ -117,6 +130,9 @@ class MainActivity: AppCompatActivity() {
 
             //create on off switch for the alarm
             val onOffSwitch: Switch = Switch(this)
+            //add switch to list
+            switches.add(onOffSwitch)
+
             val context: Context = this//this is context
 
             //set params so that it sits properly

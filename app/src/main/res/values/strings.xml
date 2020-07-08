@@ -18,4 +18,5 @@
     <string name="repeat_every_min">REPEAT EVERY (min)</string>
     <string name="select_color">Select color</string>
     <string name="_30">30</string>
+    <string name="all_alarms">All Alarms</string>
 </resources>
