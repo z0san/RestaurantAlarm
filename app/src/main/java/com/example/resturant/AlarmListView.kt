@@ -9,9 +9,10 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.Switch
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.content_main.*
 
-class AlarmListView : LinearLayout{
+class AlarmListView : ConstraintLayout{
     var alarm: AlarmType = AlarmType()
 
     //create on off switch for the alarm
@@ -26,11 +27,50 @@ class AlarmListView : LinearLayout{
     //create a view that is the color of the alarm
     var colorLabel: View = View(context)
 
+    //create a view that will show the time until the alarm goes off
+    val progressBar: View = View(context)
+
     //horizontal layout for the alarm info
     //var alarmInfo: LinearLayout = LinearLayout(context)
 
     constructor(context: Context, alarm: AlarmType) : super(context) {
         this.alarm = alarm
+
+        //set params so that it sits properly
+        val alarmParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
+            LayoutParams.MATCH_PARENT,
+            LayoutParams.MATCH_PARENT
+        )
+        alarmParams.setMargins(0, 0, 0, 0)
+
+        layoutParams = alarmParams
+
+        //add main alarm info
+        addView(makeAlarmInfo())
+
+        //add progress bar
+        // setBackgroundColor(0xFFd9d9d9.toInt())
+
+
+        //set params so that it sits properly
+        val progressParams: ConstraintLayout.LayoutParams = ConstraintLayout.LayoutParams(
+            LayoutParams.MATCH_PARENT,
+            LayoutParams.MATCH_PARENT
+        )
+        progressBar.setBackgroundColor(0xFFCCCCCC.toInt())
+
+        progressBar.layoutParams = progressParams
+
+        addView(progressBar)
+
+    }
+
+    //responsible for making the alarm info linear layout
+    private fun makeAlarmInfo(): LinearLayout {
+        val alarmInfo: LinearLayout = LinearLayout(context)
+
+        //set background to clear
+        alarmInfo.setBackgroundColor(0x00000000.toInt())
 
         onOffSwitch = Switch(context)
         frequency = TextView(context)
@@ -38,30 +78,30 @@ class AlarmListView : LinearLayout{
         colorLabel = View(context)
 
         //set params so that it sits properly
-        val alarmParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.MATCH_PARENT
+        val alarmInfoParams: ConstraintLayout.LayoutParams = ConstraintLayout.LayoutParams(
+            LayoutParams.MATCH_PARENT,
+            LayoutParams.MATCH_PARENT
         )
-        alarmParams.setMargins(0, 0, 0, 0)
+        alarmInfoParams.setMargins(0, 0, 0, 0)
 
-        layoutParams = alarmParams
+        alarmInfo.layoutParams = alarmInfoParams
 
         //set params so that it sits properly
         val boxParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
             20,
-            LinearLayout.LayoutParams.MATCH_PARENT
+            LayoutParams.MATCH_PARENT
         )
         colorLabel.layoutParams = boxParams
         boxParams.setMargins(0, 0, 20, 0)
 
         colorLabel.setBackgroundColor(alarm.color)
 
-        addView((colorLabel))
+        alarmInfo.addView((colorLabel))
 
         //set params so that it sits properly
         val nameParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+            LayoutParams.WRAP_CONTENT,
+            LayoutParams.WRAP_CONTENT
         )
         name.layoutParams = nameParams
 
@@ -72,14 +112,14 @@ class AlarmListView : LinearLayout{
         name.typeface = Typeface.DEFAULT_BOLD
         name.setTextColor(Color.parseColor("#000000"))
 
-        addView(name)
+        alarmInfo.addView(name)
 
 
 
         //set params so that it sits properly
         val freqParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+            LayoutParams.WRAP_CONTENT,
+            LayoutParams.WRAP_CONTENT
         )
         frequency.layoutParams = freqParams
         //freqParams.setMargins(100, 10, 10, 10)
@@ -87,14 +127,14 @@ class AlarmListView : LinearLayout{
         frequency.textSize = MainActivity.smallText.toFloat()
         frequency.text = "Every : ${alarm.frequencyMin} minutes"
 
-        addView(frequency)
+        alarmInfo.addView(frequency)
 
 
 
         //set params so that it sits properly
         val onOffParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+            LayoutParams.WRAP_CONTENT,
+            LayoutParams.WRAP_CONTENT
         )
         onOffSwitch.layoutParams = onOffParams
 
@@ -109,12 +149,13 @@ class AlarmListView : LinearLayout{
         //set margins
         onOffParams.setMargins(30, 10, 10, 10)
 
-        addView(onOffSwitch)
+        alarmInfo.addView(onOffSwitch)
 
-        //set alarmInfo longclick
         //this will delete that alarm
         isLongClickable=true
 
+        //method is set in main activity
 
+        return alarmInfo
     }
 }

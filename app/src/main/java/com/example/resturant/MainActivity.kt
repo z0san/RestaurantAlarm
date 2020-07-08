@@ -56,8 +56,10 @@ class MainActivity: AppCompatActivity() {
                 //an alert box confirming the delete
                 //this builder is used to setup the dialogue box
                 val builder: AlertDialog.Builder= AlertDialog.Builder(this)
-                    .setMessage(Html.fromHtml("Are you shure you want to delete the alarm: <b>" + alarm.name + "</b> ?"))
-                    .setCancelable(false)//prevents cancilation
+                    .setMessage(Html.fromHtml(
+                        "Are you sure you want to delete the alarm: <b>"
+                                + alarm.name + "</b> ?"))
+                    .setCancelable(false)//prevents calculation
                     //yes button deletes alarm
                     .setPositiveButton("yes"
                     ) { _, _ -> //delete alarm here
