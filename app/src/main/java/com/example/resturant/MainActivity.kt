@@ -10,6 +10,7 @@ import android.util.TypedValue
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import java.lang.Exception
 
 
 class MainActivity: AppCompatActivity() {
@@ -24,6 +25,9 @@ class MainActivity: AppCompatActivity() {
         var alarm_manager: AlarmManager? = null
 
         var currentlyTriggered: MutableList<AlarmType> = mutableListOf()
+        var selectedAlarm: AlarmType? =null//holds the alarm that is currently selected, null if none are selected
+
+        val switches: MutableList<Switch> = mutableListOf()//stores the switches for the alarms so they can be changed
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +62,22 @@ class MainActivity: AppCompatActivity() {
         addAlarmButton.setOnClickListener {
             startActivity(Intent(this, AddAlarmActivity::class.java))
         }
-
+        /* Currently Disabled
+        //set button to go to settings
+        settingsButton.setOnClickListener{
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
+        */
+        //add universal off switch
+        universalSwitch.setOnClickListener {
+            for(alarm in alarms){//set the alarm objects to the switch value
+                alarm.onSwitchChange(this,universalSwitch.isChecked)
+            }
+            //set all switches to closed
+            for(switch in switches){
+                switch.isChecked=universalSwitch.isChecked
+            }
+        }
 
         //add test items
         for (alarm in alarms) {
@@ -66,6 +85,7 @@ class MainActivity: AppCompatActivity() {
 
             //set alarmInfo on click as it needs to be in this scope
             alarmListView.setOnLongClickListener {
+
                 //an alert box confirming the delete
                 //this builder is used to setup the dialogue box
                 val builder: AlertDialog.Builder= AlertDialog.Builder(this)
@@ -94,6 +114,7 @@ class MainActivity: AppCompatActivity() {
             }
 
             alarmList.addView(alarmListView)
+
         }
     }
 }
