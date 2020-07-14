@@ -1,21 +1,23 @@
 package com.example.resturant
 
 import android.content.Context
+import android.content.Intent
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.startActivity
 import java.util.*
 
-class AlarmTriggeredView : View {
+class AlarmTriggeredView : ConstraintLayout {
     var alarm: AlarmType = AlarmType()
     //view to store all the alarms that have gone off
-    val alarmView: ConstraintLayout = ConstraintLayout(context)
-    var dismissButton: Button = Button(context)
-    var count: TextView = TextView(context)
-    var title: TextView = TextView(context)
+    //val alarmView: ConstraintLayout = ConstraintLayout(context)
+    private var dismissButton: Button = Button(context)
+    private var count: TextView = TextView(context)
+    private var title: TextView = TextView(context)
 
     constructor(context: Context, alarm: AlarmType) : super(context) {
         this.alarm = alarm
@@ -27,8 +29,8 @@ class AlarmTriggeredView : View {
             0,
             1F
         )
-        alarmView.layoutParams = viewParams
-        alarmView.setBackgroundColor(alarm.color)
+        layoutParams = viewParams
+        setBackgroundColor(alarm.color)
 
 
         //set params so that it sits properly
@@ -46,10 +48,25 @@ class AlarmTriggeredView : View {
 
         dismissButton.layoutParams = buttonParams
         dismissButton.text = "DISMISS"
-        alarmView.addView(dismissButton)
 
+        dismissButton.setOnClickListener {
+            //reset alarm variables
+            alarm.lastAlarm = Calendar.getInstance().timeInMillis
+            AlarmReceiver().setAlarm(context, alarm.frequencyMin)
 
+            //remove from currently triggered
+            MainActivity.currentlyTriggered.remove(alarm)
 
+            if (AlarmReceiver().getTriggeredAlarms().isEmpty()) {
+                //if empty go back to main window
+                startActivity(context, Intent(context, MainActivity::class.java), null)
+            } else {
+                //otherwise redraw current window
+                startActivity(context, Intent(context, AlarmTriggered::class.java), null)
+            }
+        }
+
+        addView(dismissButton)
 
         title.text = alarm.name
 
@@ -68,7 +85,7 @@ class AlarmTriggeredView : View {
         title.setTextColor(0xFF000000.toInt())
         title.textSize = 24F
 
-        alarmView.addView(title)
+        addView(title)
 
 
         count.text = "0"
@@ -88,13 +105,23 @@ class AlarmTriggeredView : View {
         count.setTextColor(0x66000000.toInt())
         count.textSize = 18F
 
-        alarmView.addView(count)
+        addView(count)
     }
 
     //function to update the count
     fun updateCount() {
-        count.text = (((alarm.lastAlarm.toInt() / 1000) -
-                (Calendar.getInstance().timeInMillis.toInt() / 1000)) % alarm.frequencyMin)
-                .toString()
+        //calendar to be set to the time of the alarm last alarm
+        val cal: Calendar = Calendar.getInstance()
+        cal.timeInMillis = alarm.lastAlarm
+
+        //current time
+        val current: Calendar = Calendar.getInstance()
+
+        var value: Int = ((cal.time.seconds - current.time.seconds) %
+                (alarm.frequencyMin * 60))
+
+        if (value > 0) value -= (alarm.frequencyMin * 60)
+
+        count.text = value.toString()
     }
 }
