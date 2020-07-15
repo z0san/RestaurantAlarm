@@ -10,7 +10,6 @@ import android.widget.LinearLayout
 import android.widget.Switch
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import kotlinx.android.synthetic.main.content_main.*
 
 class AlarmListView : ConstraintLayout{
     var alarm: AlarmType = AlarmType()
@@ -152,6 +151,8 @@ class AlarmListView : ConstraintLayout{
         onOffParams.setMargins(30, 10, 10, 10)
 
         alarmInfo.addView(onOffSwitch)
+
+        MainActivity.switches.add(onOffSwitch)
 
         //this will delete that alarm
         isLongClickable=true
