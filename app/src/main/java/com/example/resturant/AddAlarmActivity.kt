@@ -1,17 +1,17 @@
 package com.example.resturant
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import dev.sasikanth.colorsheet.ColorSheet
 import kotlinx.android.synthetic.main.add_alarm.*
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 
 class AddAlarmActivity: AppCompatActivity() {
 
     var currentAlarm: AlarmType = AlarmType()
+    var mediaPlayer: MediaPlayer? = null
+
 
     //loads a pre-exsisting alarm into this interface
     fun loadAlarm(alarm: AlarmType){
@@ -25,6 +25,7 @@ class AddAlarmActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.add_alarm)
 
         //check for selected alarm
@@ -73,7 +74,12 @@ class AddAlarmActivity: AppCompatActivity() {
                 })
                 .show(supportFragmentManager)
         }
+
+        newRecording.setOnClickListener {
+            startActivity(Intent(this, SoundRecorder::class.java))
+        }
     }
+
 
     public override fun onBackPressed(){
 

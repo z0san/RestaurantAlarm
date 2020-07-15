@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.resturant.AddAlarmActivity" />
+        <activity android:name="com.example.resturant.SoundRecorder" />
         <activity android:name="com.example.resturant.AlarmTriggered" />
         <activity android:name="com.example.resturant.SettingsActivity"/>
         <receiver  android:process=":remote" android:name="AlarmReceiver"/>
@@ -29,6 +30,7 @@
     </application>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
 </manifest>
