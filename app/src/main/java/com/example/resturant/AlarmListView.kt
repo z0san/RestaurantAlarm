@@ -1,15 +1,19 @@
 package com.example.resturant
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Switch
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.startActivity
 import java.util.*
 
 class AlarmListView : ConstraintLayout{
@@ -77,6 +81,7 @@ class AlarmListView : ConstraintLayout{
 
         // Create the Handler object (on the main thread by default)
         return object : Runnable {
+            @RequiresApi(Build.VERSION_CODES.M)
             override fun run() {
                 // Do something here on the main thread
                 Log.d("Handlers", "Updating progress bars")
@@ -91,6 +96,12 @@ class AlarmListView : ConstraintLayout{
                         ((cal.timeInMillis - alarm.lastAlarm) / 60000.0) / alarm.frequencyMin
 
                 progressBar.layoutParams = LayoutParams(width.toInt(), alarmInfo.height)
+
+                //test to see if there are any alarms that need to go off
+                if (AlarmReceiver().getTriggeredAlarms().count() != 0){
+                    AlarmReceiver().scheduleJob(context)
+                }
+
 
                 // Repeat this the same runnable code block again another 2 seconds
                 // 'this' is referencing the Runnable object

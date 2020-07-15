@@ -25,9 +25,11 @@ class MainActivity: AppCompatActivity() {
         var alarm_manager: AlarmManager? = null
 
         var currentlyTriggered: MutableList<AlarmType> = mutableListOf()
-        var selectedAlarm: AlarmType? =null//holds the alarm that is currently selected, null if none are selected
+        var selectedAlarm: AlarmType? =null
+        //holds the alarm that is currently selected, null if none are selected
 
-        val switches: MutableList<Switch> = mutableListOf()//stores the switches for the alarms so they can be changed
+        val switches: MutableList<Switch> = mutableListOf()
+        //stores the switches for the alarms so they can be changed
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
