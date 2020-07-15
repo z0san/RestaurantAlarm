@@ -151,7 +151,6 @@ class AlarmListView : ConstraintLayout{
         //set margins
         onOffParams.setMargins(30, 10, 10, 10)
 
-        MainActivity.switches.add(onOffSwitch)
         alarmInfo.addView(onOffSwitch)
 
         //this will delete that alarm

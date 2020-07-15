@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.text.Html
 import android.util.Log
 import android.util.TypedValue
-import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
