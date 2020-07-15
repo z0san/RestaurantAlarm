@@ -112,6 +112,12 @@ class MainActivity: AppCompatActivity() {
                 builder.create().show()
                 true
             }
+            //normal click for exdit alarms
+            alarmListView.setOnClickListener{
+                selectedAlarm=alarm
+                startActivity(Intent(this, AddAlarmActivity::class.java))
+            }
+
 
             alarmList.addView(alarmListView)
 

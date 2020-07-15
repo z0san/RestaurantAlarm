@@ -20,4 +20,5 @@
     <string name="_30">30</string>
     <string name="all_alarms">All Alarms</string>
     <string name="defult_alarm_time">Defult Alarm Time</string>
+    <string name="newRecording">NEW RECORDING</string>
 </resources>

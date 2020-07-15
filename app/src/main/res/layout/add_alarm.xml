@@ -78,4 +78,25 @@
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/alarmFrequency" />
 
+    <Button
+        android:id="@+id/newRecording"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/newRecording"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/colorSelector" />
+
+    <LinearLayout
+        android:id="@+id/recordingList"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="28dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/newRecording"></LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
