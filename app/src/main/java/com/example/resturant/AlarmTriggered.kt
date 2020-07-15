@@ -22,7 +22,7 @@ class AlarmTriggered : AppCompatActivity() {
     }
 
     // Create the Handler object (on the main thread by default)
-    val handler = Handler()
+    val handler: Handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,7 @@ class AlarmTriggered : AppCompatActivity() {
 
     }
 
-    //function to generate teh runnable code that runs every second to update time since triggered
+    //function to generate the runnable code that runs every second to update time since triggered
     private fun getRunnableLoop(): Runnable {
         // Create the Handler object (on the main thread by default)
         return object : Runnable {
