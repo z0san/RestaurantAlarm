@@ -1,7 +1,6 @@
 package com.example.resturant
 
 import android.content.Context
-import android.content.DialogInterface
 import java.io.*
 import java.util.*
 
@@ -9,7 +8,7 @@ class AlarmType: Serializable {
     var frequencyMin: Int = 30
     var color: Int = 0
     var name: String = ""
-    var isOn: Boolean = true
+    var isOn: Boolean = false
     var lastAlarm: Long = 0
 
     fun isEmpty(): Boolean {
@@ -21,7 +20,7 @@ class AlarmType: Serializable {
     }
 
     //function to handle when a alarm is switched on or off
-    fun onSwitchChange(context: Context, isChecked: Boolean){
+    fun onSwitchChange(context: Context, isChecked: Boolean) {
         isOn = isChecked
         if (isChecked) {
             //if checked then we need to start the alarm and reset the last alarm
@@ -34,6 +33,24 @@ class AlarmType: Serializable {
         //the alarm won't go off
     }
 
+    //overwrite equals method so that it dosen't check for on off state
+    override fun equals(other: Any?): Boolean {
+        // If the object is compared with itself then return true
+        if (other === this) {
+            return true
+        }
+
+        /* Check if o is an instance of Complex or not
+          "null instanceof [type]" also returns false */if (other !is AlarmType) {
+            return false
+        }
+
+        // typecast o to Complex so that we can compare data members
+        val c: AlarmType = other as AlarmType
+
+        // Compare the data members and return accordingly
+        return other.name == name && other.frequencyMin == frequencyMin && other.color == color
+    }
 }
 
 const val fileName: String = "alarms.txt"

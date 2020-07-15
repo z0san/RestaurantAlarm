@@ -9,15 +9,20 @@ import android.widget.Toast
 //used to schedule jobs
 class AlarmJobs : JobService() {
 
-    private val TAG = "SyncService"
-
     override fun onStartJob(params: JobParameters?): Boolean {
-        val message = "Alarm triggered"
-        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
 
+        val triggeredAlarms = AlarmReceiver().getTriggeredAlarms()
         //only start the alarm triggered activity if there are alarms that should be going off
-        if (AlarmReceiver().getTriggeredAlarms().isNotEmpty()) {
+        //also checks that there is a new alarm that has gon off
+        if (triggeredAlarms.isNotEmpty() && triggeredAlarms != MainActivity.currentlyTriggered) {
+            //set the currently triggered
+            MainActivity.currentlyTriggered = triggeredAlarms
+
             //create the alarm triggered page after this timer goes off
+
+            val message = "Alarm triggered"
+            Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+
             val intent = Intent(applicationContext, AlarmTriggered::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             applicationContext.startActivity(intent)
