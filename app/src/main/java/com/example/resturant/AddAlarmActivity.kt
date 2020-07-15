@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import dev.sasikanth.colorsheet.ColorSheet
 import kotlinx.android.synthetic.main.add_alarm.*
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 
 class AddAlarmActivity: AppCompatActivity() {
 
@@ -52,7 +54,7 @@ class AddAlarmActivity: AppCompatActivity() {
 
                 //set the current activity to main activity
                 startActivity(Intent(this, MainActivity::class.java))
-            }
+        }
         }
 
         colorSelector.setOnClickListener {
@@ -73,5 +75,27 @@ class AddAlarmActivity: AppCompatActivity() {
         }
     }
 
+    public override fun onBackPressed(){
+
+        //if updating alarm save new updates
+        if(MainActivity.selectedAlarm!=null)
+        {
+            //set the current alarm name to whatever is entered by the user
+            if (alarmName.text.toString() != "") currentAlarm.name = alarmName.text.toString()
+
+            //set the current alarm frequency to whatever is entered by the user
+            if (alarmFrequency.text.toString() != "") currentAlarm.frequencyMin = alarmFrequency.text.toString().toInt()
+        }
+
+        //if creating a new alarm
+        //nothing needs to be done
+
+        //clear selected alarm
+        MainActivity.selectedAlarm=null;
+        //save alarms
+        saveAlarms(this, MainActivity.alarms)
+        //set the current activity to main activity
+        startActivity(Intent(this, MainActivity::class.java))
+    }
 
 }
