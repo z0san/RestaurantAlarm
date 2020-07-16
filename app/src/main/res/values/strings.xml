@@ -25,4 +25,5 @@
     <string name="end">END</string>
     <string name="save">SAVE</string>
     <string name="sound_name">Sound Name</string>
+    <string name="play">PLAY</string>
 </resources>
