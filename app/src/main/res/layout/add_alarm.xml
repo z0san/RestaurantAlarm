@@ -88,15 +88,20 @@
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/colorSelector" />
 
-    <LinearLayout
-        android:id="@+id/recordingList"
+    <ScrollView
+        android:id="@+id/recordingListParent"
         android:layout_width="0dp"
         android:layout_height="120dp"
         android:layout_marginTop="28dp"
-        android:orientation="vertical"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/newRecording"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/newRecording">
+
+        <LinearLayout
+            android:id="@+id/recordingListChild"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ class AlarmType: Serializable {
     var name: String = ""
     var isOn: Boolean = false
     var lastAlarm: Long = 0
+    var sound: File? = null//null for no sound
 
     fun isEmpty(): Boolean {
         return frequencyMin == 0 && color == 0 && name == ""
