@@ -64,7 +64,7 @@ class SoundRecorder: AppCompatActivity() {
         }
         saveButton.setOnClickListener{
             if(checkName()){
-                File(this.filesDir,"tempRecording.3gp").renameTo(File(this.filesDir,soundName.text.toString()+".3fp"))
+                File(this.filesDir,"tempRecording.3gp").renameTo(File(this.filesDir,soundName.text.toString()+".3gp"))
             }
             saveButton.isEnabled=false;
         }
