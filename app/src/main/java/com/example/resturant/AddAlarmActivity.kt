@@ -31,6 +31,9 @@ class AddAlarmActivity: AppCompatActivity() {
         alarmName.setText(alarm.name)
         alarmFrequency.setText(alarm.frequencyMin.toString())
 
+        if(alarm.sound!=null){
+            selectedSound=alarm.sound
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -162,6 +165,11 @@ class AddAlarmActivity: AppCompatActivity() {
                             }
                         }
                         soundContainer.addView(playButton)
+
+                        //this sound is pre selected
+                        if(selectedSound==file){
+                            soundContainer.setBackgroundColor(0xFFCCCCCC.toInt())
+                        }
 
                         //set sound container onclick listener
                         //this selects the sound
