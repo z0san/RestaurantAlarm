@@ -1,17 +1,12 @@
 package com.example.resturant
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.View
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.children
 import kotlinx.android.synthetic.main.alarm_triggered.*
-import org.w3c.dom.Text
+import java.util.*
 
 class AlarmTriggered : AppCompatActivity() {
 
@@ -19,25 +14,67 @@ class AlarmTriggered : AppCompatActivity() {
     companion object {
         //stores all the counts that we need to update every second
         var alarmViews: MutableSet<AlarmTriggeredView> = mutableSetOf<AlarmTriggeredView>()
+        var currentMediaPlayers: MutableMap<AlarmType, MediaPlayer> = mutableMapOf()
     }
 
     // Create the Handler object (on the main thread by default)
-    val handler = Handler()
+    val handler: Handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.alarm_triggered)
 
+        val triggered: MutableList<AlarmType> = AlarmReceiver().getTriggeredAlarms()
+
         //draw all alarms that are triggered
-        drawAlarms(AlarmReceiver().getTriggeredAlarms())
+        drawAlarms(triggered)
+
+        //play all alarms that are triggered
+        playAlarms(triggered)
 
         // Start the initial runnable task by posting through the handler
         // St   art the initial runnable task by posting through the handler
         handler.post(getRunnableLoop())
 
+        //set what should be done to dismiss all alarms
+        dismissAll.setOnClickListener {
+
+            //dismiss all alarms
+            for(triggeredView: AlarmTriggeredView in alarmViews){
+                triggeredView.dismissButton.callOnClick()
+            }
+        }
+
     }
 
-    //function to generate teh runnable code that runs every second to update time since triggered
+    fun playAlarms(alarms: MutableList<AlarmType>) {
+        for(alarm in alarms) {
+            //play audio
+            if(!alarm.playingSound && alarm.sound != null) {
+                currentMediaPlayers[alarm] = MediaPlayer()
+
+                alarm.playingSound = true
+
+                //set listener for finished
+                currentMediaPlayers[alarm]?.setOnCompletionListener(
+                    MediaPlayer.OnCompletionListener {
+                        //when finished player
+                        currentMediaPlayers[alarm]?.stop()
+                        currentMediaPlayers[alarm]?.release()
+                        alarm.playingSound = false
+//                        currentMediaPlayers[alarm]?.start()
+                    }
+                )
+
+                //setup
+                currentMediaPlayers[alarm]?.setDataSource(alarm.sound?.absolutePath)
+                currentMediaPlayers[alarm]?.prepare()
+                currentMediaPlayers[alarm]?.start()
+            }
+        }
+    }
+
+    //function to generate the runnable code that runs every second to update time since triggered
     private fun getRunnableLoop(): Runnable {
         // Create the Handler object (on the main thread by default)
         return object : Runnable {
@@ -48,6 +85,9 @@ class AlarmTriggered : AppCompatActivity() {
                 for(alarmView in alarmViews) {
                     alarmView.updateCount()
                 }
+
+                //replay any sounds that have finished
+                playAlarms(AlarmReceiver().getTriggeredAlarms())
 
                 // Repeat this the same runnable code block again another 2 seconds
                 // 'this' is referencing the Runnable object

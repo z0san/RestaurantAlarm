@@ -1,6 +1,8 @@
 package com.example.resturant
 
 import android.content.Context
+import android.media.MediaParser
+import android.media.MediaPlayer
 import java.io.*
 import java.util.*
 
@@ -11,6 +13,7 @@ class AlarmType: Serializable {
     var isOn: Boolean = false
     var lastAlarm: Long = 0
     var sound: File? = null//null for no sound
+    var playingSound: Boolean = false
 
     fun isEmpty(): Boolean {
         return frequencyMin == 0 && color == 0 && name == ""

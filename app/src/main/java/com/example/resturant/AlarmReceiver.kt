@@ -55,10 +55,6 @@ class AlarmReceiver : BroadcastReceiver() {
                 //set the time to the last time the alarm went off
                 triggerTime.timeInMillis = alarm.lastAlarm
 
-                //find the time at which the time should go off so that it can be compared to the current time
-                Log.e("last alarm: ", triggerTime.timeInMillis.toString())
-                Log.e("current time: ", Calendar.getInstance().timeInMillis.toString())
-
                 triggerTime.add(Calendar.MINUTE, alarm.frequencyMin) //is seconds for debugging only should be mins for final version
 
                 //triggerTime.add(Calendar.MINUTE, alarm.frequencyMin)
