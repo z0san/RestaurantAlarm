@@ -110,6 +110,15 @@ class AddAlarmActivity: AppCompatActivity() {
                         //all saved recordings
                         val soundContainer: LinearLayout = LinearLayout(this)
 
+                        val soundContainerParams: LinearLayout.LayoutParams = LinearLayout.
+                        LayoutParams(
+                            ConstraintLayout.LayoutParams.MATCH_PARENT,
+                            ConstraintLayout.LayoutParams.MATCH_PARENT
+                        )
+
+                        soundContainer.layoutParams = soundContainerParams
+                        soundContainer.setPadding(60, 0, 30, 0)
+
                         //add name
                         val nameText: TextView = TextView(this)
                         nameText.text=file.nameWithoutExtension
@@ -131,8 +140,9 @@ class AddAlarmActivity: AppCompatActivity() {
                                 mediaPlayer = MediaPlayer()
 
                                 //set listener for finished
-                                mediaPlayer!!.setOnCompletionListener(MediaPlayer.OnCompletionListener {
-                                    //when finisehd player
+                                mediaPlayer!!.setOnCompletionListener(MediaPlayer
+                                    .OnCompletionListener {
+                                    //when finished player
                                     playButton.text = "PLAY"
                                     mediaPlayer?.stop()
                                     mediaPlayer?.release()
@@ -213,7 +223,7 @@ class AddAlarmActivity: AppCompatActivity() {
         }
     }
 
-    public override fun onBackPressed(){
+    override fun onBackPressed(){
 
         //if updating alarm save new updates
         if(MainActivity.selectedAlarm!=null)
