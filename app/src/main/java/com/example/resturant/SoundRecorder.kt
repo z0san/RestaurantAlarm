@@ -63,10 +63,14 @@ class SoundRecorder: AppCompatActivity() {
             playButton.isEnabled=true
         }
         saveButton.setOnClickListener{
+            //save
             if(checkName()){
                 File(this.filesDir,"tempRecording.3gp").renameTo(File(this.filesDir,soundName.text.toString()+".3gp"))
             }
-            saveButton.isEnabled=false;
+            saveButton.isEnabled=false
+
+            //and exit
+            startActivity(Intent(this, AddAlarmActivity::class.java))
         }
         cancelButton.setOnClickListener{
             startActivity(Intent(this, AddAlarmActivity::class.java))

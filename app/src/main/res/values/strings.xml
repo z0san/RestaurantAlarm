@@ -23,7 +23,7 @@
     <string name="newRecording">NEW RECORDING</string>
     <string name="start">START</string>
     <string name="end">END</string>
-    <string name="save">SAVE</string>
+    <string name="save">SAVE AND EXIT</string>
     <string name="sound_name">Sound Name</string>
     <string name="play">PLAY</string>
     <string name="dismiss_all">Dismiss All</string>
