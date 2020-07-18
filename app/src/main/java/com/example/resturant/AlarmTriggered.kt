@@ -36,6 +36,15 @@ class AlarmTriggered : AppCompatActivity() {
         // St   art the initial runnable task by posting through the handler
         handler.post(getRunnableLoop())
 
+        //set what should be done to dismiss all alarms
+        dismissAll.setOnClickListener {
+
+            //dismiss all alarms
+            for(triggeredView: AlarmTriggeredView in alarmViews){
+                triggeredView.dismissButton.callOnClick()
+            }
+        }
+
     }
 
     fun playAlarms(alarms: MutableList<AlarmType>) {
