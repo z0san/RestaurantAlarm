@@ -1,15 +1,20 @@
 package com.example.resturant
 
-import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
-import android.text.Html
+import android.os.Build
+import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Switch
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.startActivity
+import java.util.*
 
 class AlarmListView : ConstraintLayout{
     var alarm: AlarmType = AlarmType()
@@ -28,6 +33,10 @@ class AlarmListView : ConstraintLayout{
 
     //create a view that will show the time until the alarm goes off
     val progressBar: View = View(context)
+
+    //initiate handler
+    val progressBarHandler: Handler = Handler()
+
 
     //horizontal layout for the alarm info
     //var alarmInfo: LinearLayout = LinearLayout(context)
@@ -48,8 +57,7 @@ class AlarmListView : ConstraintLayout{
 
         //set params so that it sits properly
         val progressParams: ConstraintLayout.LayoutParams = ConstraintLayout.LayoutParams(
-            200,
-            70 // hard coded for now but this needs to be changed just for visualisation now
+            0, 0 // hard coded for now but this needs to be changed just for visualisation now
         )
 
         progressBar.setBackgroundColor(0xFFCCCCCC.toInt())
@@ -58,12 +66,48 @@ class AlarmListView : ConstraintLayout{
 
         addView(progressBar)
 
-
         //add main alarm info
-        addView(makeAlarmInfo())
+        val alarmInfo: View = makeAlarmInfo()
+        addView(alarmInfo)
+
+        // Start the initial runnable task by posting through the handler
+        progressBarHandler.post(getRunnableLoop(progressBar, alarm, alarmInfo))
+
+    }
+
+    //function to generate the runnable code that runs intermittently to update progress bar
+    //will update the progress bar's width to the proportion of time until the alarm goes off
+    private fun getRunnableLoop(progressBar: View, alarm: AlarmType, alarmInfo: View): Runnable {
+
+        // Create the Handler object (on the main thread by default)
+        return object : Runnable {
+            @RequiresApi(Build.VERSION_CODES.M)
+            override fun run() {
+                // Do something here on the main thread
+                Log.d("Handlers", "Updating progress bars")
+
+                //if alarm is turned off set width to 0 and return
+                if (!alarm.isOn) {
+                    progressBar.layoutParams = LayoutParams(0, 0)
+                    return
+                }
+                val cal: Calendar = Calendar.getInstance()
+                val width: Double = alarmInfo.width *
+                        ((cal.timeInMillis - alarm.lastAlarm) / 60000.0) / alarm.frequencyMin
+
+                progressBar.layoutParams = LayoutParams(width.toInt(), alarmInfo.height)
+
+                //test to see if there are any alarms that need to go off
+                if (AlarmReceiver().getTriggeredAlarms().count() != 0){
+                    AlarmReceiver().scheduleJob(context)
+                }
 
 
-
+                // Repeat this the same runnable code block again another 2 seconds
+                // 'this' is referencing the Runnable object
+                handler.postDelayed(this, 100)
+            }
+        }
     }
 
     //responsible for making the alarm info linear layout
@@ -142,6 +186,8 @@ class AlarmListView : ConstraintLayout{
         //set the on click function for each alarm
         onOffSwitch.setOnClickListener{
             alarm.onSwitchChange(context, onOffSwitch.isChecked)
+            // Start the initial runnable task by posting through the handler
+            progressBarHandler.post(getRunnableLoop(progressBar, alarm, alarmInfo))
         }
 
         //set the default switch state to whatever it is for the current alarm

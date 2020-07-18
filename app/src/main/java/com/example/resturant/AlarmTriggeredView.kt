@@ -15,7 +15,7 @@ class AlarmTriggeredView : ConstraintLayout {
     var alarm: AlarmType = AlarmType()
     //view to store all the alarms that have gone off
     //val alarmView: ConstraintLayout = ConstraintLayout(context)
-    private var dismissButton: Button = Button(context)
+    var dismissButton: Button = Button(context)
     private var count: TextView = TextView(context)
     private var title: TextView = TextView(context)
 
